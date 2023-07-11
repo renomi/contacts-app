@@ -24,10 +24,11 @@ module.exports = function (api) {
           ],
         },
       ],
+      'react-native-reanimated/plugin',
     ],
     env: {
       production: {
-        plugins: ['transform-remove-console'],
+        plugins: ['react-native-paper/babel', 'transform-remove-console'],
       },
     },
   };

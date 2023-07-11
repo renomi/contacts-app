@@ -2,6 +2,8 @@ import { StyleSheet } from 'react-native';
 
 import * as SplashScreen from 'expo-splash-screen';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { Provider as PaperProvider } from 'react-native-paper';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { enableFreeze } from 'react-native-screens';
 
 import { RootNavigator } from '@/navigation';
@@ -14,7 +16,11 @@ SplashScreen.preventAutoHideAsync();
 const App = () => {
   return (
     <GestureHandlerRootView style={styles.container}>
-      <RootNavigator />
+      <BottomSheetModalProvider>
+        <PaperProvider>
+          <RootNavigator />
+        </PaperProvider>
+      </BottomSheetModalProvider>
     </GestureHandlerRootView>
   );
 };
