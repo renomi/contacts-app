@@ -22,6 +22,7 @@
     "@react-native-community/netinfo": "9.3.7",
     "@react-navigation/native": "^6.1.7",
     "@react-navigation/native-stack": "^6.9.13",
+    "@reduxjs/toolkit": "^1.9.5",
     "@shopify/flash-list": "1.4.0",
     "expo": "~48.0.18",
     "expo-build-properties": "~0.6.0",
@@ -44,6 +45,7 @@
     "react-native-screens": "~3.20.0",
     "react-native-simple-toast": "^2.0.1",
     "react-native-svg": "13.4.0",
+    "react-redux": "^8.1.1",
     "zod": "^3.21.4"
   },
   "devDependencies": {
@@ -60,6 +62,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "prettier": "^3.0.0",
     "react-native-flipper": "0.182",
+    "redux-flipper": "^2.0.2",
     "typescript": "^4.9.4"
   },
   "eslintConfig": {

@@ -1,46 +1,35 @@
-import {
-  Button,
-  ErrorIndicator,
-  Input,
-  LoadingIndicator,
-  PressableScale,
-} from '@/ui';
+import { Button, PressableScale } from '@/ui';
 import { StatusBar } from 'expo-status-bar';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { View, Text, StyleSheet } from 'react-native';
-import { zodResolver } from '@hookform/resolvers/zod';
-
-import { z } from 'zod';
+import { Text, StyleSheet } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+import { shallowEqual } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '@/hooks';
+import { setUser } from '@/redux/user/userSlice';
+import type { RootState } from '@/redux/store';
 import { useCallback } from 'react';
 
-const testSchema = z.object({
-  test: z.string({ required_error: 'required' }).min(4, 'input is not valid'),
-});
-
-type TestSchema = z.infer<typeof testSchema>;
+const selectUser = (state: RootState) => state.userState.user;
 
 export const HomeScreen = () => {
-  const { control, handleSubmit } = useForm<TestSchema>({
-    reValidateMode: 'onChange',
-    resolver: zodResolver(testSchema),
-  });
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(selectUser, shallowEqual);
 
-  const onSubmit: SubmitHandler<TestSchema> = useCallback(() => {}, []);
+  const handleUser = useCallback(
+    () => dispatch(setUser({ isDoingTest: true })),
+    [dispatch],
+  );
+
+  console.log('🧐 ~ HomeScreen ~ isDoingTest:', user?.isDoingTest ?? false);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <StatusBar style="auto" />
 
-      <Input control={control} name="test" placeholder="test input" />
-      <Button onPress={handleSubmit(onSubmit)}>Foo</Button>
+      <Text style={styles.text}>
+        Open up App.tsx to start working on your app!
+      </Text>
 
-      {/* <PressableScale>
-        <Text>Open up App.tsx to start working on your app!</Text>
-      </PressableScale> */}
-
-      {/* <ErrorIndicator /> */}
-      {/* <LoadingIndicator /> */}
+      <Button onPress={handleUser}>Set User</Button>
     </ScrollView>
   );
 };
@@ -48,8 +37,11 @@ export const HomeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    rowGap: 12,
+    rowGap: 16,
     justifyContent: 'center',
     paddingHorizontal: 16,
+  },
+  text: {
+    textAlign: 'center',
   },
 });
