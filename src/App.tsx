@@ -10,13 +10,20 @@ import { enableFreeze } from 'react-native-screens';
 
 import { RootNavigator } from '@/navigation';
 import { OfflineIndicator } from '@/ui';
+
 import { store } from '@/redux/store';
+import { storage } from '@/redux/storage';
+import { initializeMMKVFlipper } from 'react-native-mmkv-flipper-plugin';
 
 // prevent parts of component tree from rendering, while keeping its state untouched.
 enableFreeze(true);
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
 SystemUI.setBackgroundColorAsync('#f0f2f5');
+
+if (__DEV__) {
+  initializeMMKVFlipper({ default: storage });
+}
 
 const App = () => {
   return (
