@@ -5,13 +5,14 @@ import * as SystemUI from 'expo-system-ui';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { enableFreeze } from 'react-native-screens';
 
 import { RootNavigator } from '@/navigation';
 import { OfflineIndicator } from '@/ui';
 
-import { store } from '@/redux/store';
+import { persistor, store } from '@/redux/store';
 import { storage } from '@/redux/storage';
 import { initializeMMKVFlipper } from 'react-native-mmkv-flipper-plugin';
 
@@ -28,14 +29,16 @@ if (__DEV__) {
 const App = () => {
   return (
     <Provider store={store}>
-      <GestureHandlerRootView style={styles.container}>
-        <BottomSheetModalProvider>
-          <PaperProvider>
-            <OfflineIndicator />
-            <RootNavigator />
-          </PaperProvider>
-        </BottomSheetModalProvider>
-      </GestureHandlerRootView>
+      <PersistGate loading={null} persistor={persistor}>
+        <GestureHandlerRootView style={styles.container}>
+          <BottomSheetModalProvider>
+            <PaperProvider>
+              <OfflineIndicator />
+              <RootNavigator />
+            </PaperProvider>
+          </BottomSheetModalProvider>
+        </GestureHandlerRootView>
+      </PersistGate>
     </Provider>
   );
 };
