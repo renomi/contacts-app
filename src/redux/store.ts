@@ -9,10 +9,9 @@ import {
 } from 'redux-persist';
 import { configureStore } from '@reduxjs/toolkit';
 import rootReducer from '@/redux/reducer';
+import { contactApi } from '@/services/contact';
 
-const middlewares = [
-  /* other middlewares */
-] as any;
+const middlewares = [contactApi.middleware];
 
 if (__DEV__) {
   const createDebugger = require('redux-flipper').default;
