@@ -1,14 +1,20 @@
+import { useState } from 'react';
 import { useGetContactQuery } from '@/services/contact';
-import type { RootStackScreenProps } from '@/types/navigation';
 import { ErrorIndicator, LoadingIndicator } from '@/ui';
-import { ScrollView, StyleSheet } from 'react-native';
-import { Text } from 'react-native-paper';
+import { StyleSheet, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import {
+  ActionButton,
+  ContactInfo,
+  ConfirmDelete,
+} from '@/screens/contact-detail/components';
+
+import type { RootStackScreenProps } from '@/types/navigation';
 
 export const ContactDetailScreen = ({
   route,
 }: RootStackScreenProps<'ContactDetail'>) => {
-  console.log('🧐 ~ route.params.id:', route.params.id);
-
+  const [isDiaglogVisible, setIsDialogVisible] = useState(false);
   const { isLoading, data, isError, refetch } = useGetContactQuery(
     route.params.id,
     {
@@ -25,11 +31,16 @@ export const ContactDetailScreen = ({
   }
 
   return (
-    <ScrollView contentContainerStyle={styles.screen}>
-      <Text variant="bodyMedium" style={styles.info}>
-        {JSON.stringify(data, null, 2)}
-      </Text>
-    </ScrollView>
+    <SafeAreaView style={styles.screen}>
+      <ContactInfo data={data} />
+
+      <ActionButton onDelete={() => setIsDialogVisible(true)} />
+
+      <ConfirmDelete
+        visible={isDiaglogVisible}
+        onHide={() => setIsDialogVisible(false)}
+      />
+    </SafeAreaView>
   );
 };
 export default ContactDetailScreen;
@@ -37,11 +48,7 @@ export default ContactDetailScreen;
 const styles = StyleSheet.create({
   screen: {
     flexGrow: 1,
-    justifyContent: 'center',
+    rowGap: 16,
     padding: 16,
-  },
-  info: {
-    maxWidth: 400,
-    textAlign: 'center',
   },
 });
