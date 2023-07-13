@@ -1,4 +1,5 @@
 import { memo, useCallback } from 'react';
+import * as Haptics from 'expo-haptics';
 import { StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
 import { SimpleLineIcons } from '@expo/vector-icons';
@@ -9,6 +10,7 @@ import {
 } from '@/screens/contacts/components/item';
 import { FlashList, ListRenderItem } from '@shopify/flash-list';
 import Animated, { FadeInRight } from 'react-native-reanimated';
+import { navigate } from '@/navigation/utils';
 
 export type ContactListProps = {
   data?: ContactProps['item'][];
@@ -18,9 +20,18 @@ export type ContactListProps = {
 
 export const ContactList = memo(
   ({ data, isLoading = false, query }: ContactListProps) => {
+    const handleItem = useCallback((id?: string) => {
+      if (id) {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+        navigate('ContactDetail', { id });
+      }
+    }, []);
+
     const renderItem: ListRenderItem<ContactProps['item']> = useCallback(
-      ({ item }) => <Contact item={item} />,
-      [],
+      ({ item }) => (
+        <Contact onPress={() => handleItem(item?.id)} item={item} />
+      ),
+      [handleItem],
     );
 
     const listEmptyComponent = useCallback(() => {
