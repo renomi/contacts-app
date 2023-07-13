@@ -7,9 +7,9 @@ import { useAppDispatch, useAppSelector } from '@/hooks';
 import { setContact } from '@/redux/user/userSlice';
 import type { RootState } from '@/redux/store';
 import {
-  EditContactSchema,
-  editContactValidation,
-} from '@/screens/edit-contact/common/schema';
+  contactValidation,
+  ContactValidationSchema,
+} from '@/services/contact/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
@@ -17,6 +17,7 @@ import { useEditContactMutation } from '@/services/contact';
 import { Button, Input } from '@/ui';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { ConfirmationSuccess } from '@/ui/modal/confirmation-success';
+import * as Haptics from 'expo-haptics';
 
 const selectContact = (state: RootState) => state.userState.contact;
 
@@ -38,9 +39,9 @@ export const EditContactScreen = ({
     control,
     formState: { errors, isDirty },
     handleSubmit,
-  } = useForm<EditContactSchema>({
+  } = useForm<ContactValidationSchema>({
     reValidateMode: 'onChange',
-    resolver: zodResolver(editContactValidation),
+    resolver: zodResolver(contactValidation),
     defaultValues: {
       ...currentContact,
       //@ts-expect-error
@@ -48,7 +49,7 @@ export const EditContactScreen = ({
     },
   });
 
-  const onSubmit: SubmitHandler<EditContactSchema> = useCallback(
+  const onSubmit: SubmitHandler<ContactValidationSchema> = useCallback(
     async updatedContact => {
       try {
         if (!currentContact?.id) return;
@@ -56,6 +57,7 @@ export const EditContactScreen = ({
         const result = await editContact(payload).unwrap();
         console.log('🧐 ~ EditContactScreen ~ result:', result);
         sheetModalSuccess?.current?.present();
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       } catch (error) {
         console.log('🧐 ~ EditContactScreen ~ error:', error);
       }
