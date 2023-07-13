@@ -5,14 +5,15 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as SplashScreen from 'expo-splash-screen';
 
 import { rootOptions } from '@/navigation/config';
-import { HomeScreen } from '@/screens';
+import { ContactScreen } from '@/screens';
 import { navigationTheme } from '@/constants/themes';
-const Stack = createNativeStackNavigator();
+import type { RootStackParamList } from '@/types/navigation';
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export const Root = () => {
   return (
     <Stack.Navigator screenOptions={rootOptions}>
-      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="Contacts" component={ContactScreen} />
     </Stack.Navigator>
   );
 };
