@@ -1,3 +1,4 @@
+import { contactApi } from '@/services/contact';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export type User = {
@@ -22,6 +23,16 @@ export const userSlice = createSlice({
     setUser: (state, action: PayloadAction<User>) => {
       state.user = action.payload;
     },
+  },
+  extraReducers: builder => {
+    builder.addMatcher(
+      contactApi.endpoints.getContacts.matchFulfilled,
+      (state, _action) => {
+        state.user = {
+          isDoingTest: true,
+        };
+      },
+    );
   },
 });
 
