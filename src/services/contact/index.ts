@@ -81,6 +81,20 @@ export const contactApi = createApi({
         queryFulfilled.catch(patchResult.undo);
       },
     }),
+
+    // ? Mutation: Create contact
+    createContact: builder.mutation<unknown, Omit<Contact, 'id'>>({
+      query(body) {
+        return {
+          method: 'POST',
+          url: 'contact',
+          body,
+        };
+      },
+
+      invalidatesTags: (result, _error) =>
+        result ? [{ type: 'Contacts', id: 'LIST' }] : [],
+    }),
   }),
 });
 
@@ -89,4 +103,5 @@ export const {
   useGetContactQuery,
   useDeleteContactMutation,
   useEditContactMutation,
+  useCreateContactMutation,
 } = contactApi;
