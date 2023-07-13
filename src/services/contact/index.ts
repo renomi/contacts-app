@@ -37,7 +37,23 @@ export const contactApi = createApi({
       // ? Transform the result to prevent nested data
       transformResponse: (response: GetContactResponse) => response.data,
     }),
+
+    // ? Mutation: Delete contact
+    deleteContact: builder.mutation<unknown, string>({
+      query(id) {
+        return {
+          method: 'DELETE',
+          url: `contact/${id}`,
+        };
+      },
+      invalidatesTags: (result, error) =>
+        error ? [] : [{ type: 'Contacts', id: 'LIST' }],
+    }),
   }),
 });
 
-export const { useGetContactsQuery, useGetContactQuery } = contactApi;
+export const {
+  useGetContactsQuery,
+  useGetContactQuery,
+  useDeleteContactMutation,
+} = contactApi;
