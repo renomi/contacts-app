@@ -30,3 +30,13 @@ export const buttonTheme: ThemeProp = {
     onSurfaceDisabled: 'rgba(27, 27, 31, 0.38)',
   },
 };
+
+export const searchbarTheme: ThemeProp = {
+  colors: {
+    elevation: {
+      level3: '#e5e7eb',
+    },
+    onSurface: '#1f2937',
+    onSurfaceVariant: '#15181E',
+  },
+};
