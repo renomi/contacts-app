@@ -3,6 +3,8 @@ import { NativeStackNavigationOptions } from '@react-navigation/native-stack';
 export const rootOptions: NativeStackNavigationOptions = {
   headerShown: false,
   animation: 'none',
+  statusBarColor: '#f0f2f5',
+  statusBarStyle: 'dark',
   headerShadowVisible: false,
   headerStyle: {
     backgroundColor: '#f0f2f5',
