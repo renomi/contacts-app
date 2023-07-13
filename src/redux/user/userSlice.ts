@@ -23,11 +23,11 @@ export const userSlice = createSlice({
     // ? Logout the user by returning the initial state
     logout: () => initialState,
     // Save the user's info
-    setUser: (state, action: PayloadAction<User>) => {
+    setUser: (state, action: PayloadAction<UserState['user']>) => {
       state.user = action.payload;
     },
     // save selected contact to be edited later
-    setContact: (state, action: PayloadAction<Contact>) => {
+    setContact: (state, action: PayloadAction<UserState['contact']>) => {
       state.contact = action.payload;
     },
   },

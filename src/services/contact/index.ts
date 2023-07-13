@@ -46,8 +46,40 @@ export const contactApi = createApi({
           url: `contact/${id}`,
         };
       },
-      invalidatesTags: (result, error) =>
+      invalidatesTags: (_result, error) =>
         error ? [] : [{ type: 'Contacts', id: 'LIST' }],
+    }),
+
+    // ? Mutation: Edit contact
+    editContact: builder.mutation<unknown, Contact>({
+      query({ id, ...body }) {
+        return {
+          method: 'PUT',
+          url: `contact/${id}`,
+          body,
+        };
+      },
+
+      invalidatesTags: (result, _error, { id }) =>
+        result
+          ? [
+              { type: 'Contacts', id },
+              { type: 'Contacts', id: 'LIST' },
+            ]
+          : [{ type: 'Contacts', id: 'LIST' }],
+
+      /**
+       * @see https://redux-toolkit.js.org/rtk-query/usage/manual-cache-updates
+       *  */
+      onQueryStarted({ id, ...patch }, { dispatch, queryFulfilled }) {
+        const patchResult = dispatch(
+          //  Optimistic Updates
+          contactApi.util.updateQueryData('getContact', id, draft => {
+            Object.assign(draft, patch);
+          }),
+        );
+        queryFulfilled.catch(patchResult.undo);
+      },
     }),
   }),
 });
@@ -56,4 +88,5 @@ export const {
   useGetContactsQuery,
   useGetContactQuery,
   useDeleteContactMutation,
+  useEditContactMutation,
 } = contactApi;

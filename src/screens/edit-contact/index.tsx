@@ -1,23 +1,38 @@
 import { useCallback, useRef } from 'react';
-import type { RootState } from '@/redux/store';
-import { useAppSelector } from '@/hooks';
 import { ScrollView, StyleSheet } from 'react-native';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { useFocusEffect } from '@react-navigation/native';
+import type { RootStackScreenProps } from '@/types/navigation';
+import { useAppDispatch, useAppSelector } from '@/hooks';
+
+import { setContact } from '@/redux/user/userSlice';
+import type { RootState } from '@/redux/store';
 import {
   EditContactSchema,
   editContactValidation,
 } from '@/screens/edit-contact/common/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
+import { useEditContactMutation } from '@/services/contact';
+import { Button, Input } from '@/ui';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
-import { Input, Button } from '@/ui';
 import { ConfirmationSuccess } from '@/ui/modal/confirmation-success';
 
 const selectContact = (state: RootState) => state.userState.contact;
 
-export const EditContactScreen = () => {
+export const EditContactScreen = ({
+  navigation,
+}: RootStackScreenProps<'EditContact'>) => {
+  const dispatch = useAppDispatch();
   const currentContact = useAppSelector(selectContact);
   const sheetModalSuccess = useRef<BottomSheetModal>(null);
+
+  const handleCloseModal = useCallback(() => {
+    sheetModalSuccess?.current?.close();
+    navigation.goBack();
+  }, [navigation]);
+
+  const [editContact, { isLoading }] = useEditContactMutation();
 
   const {
     control,
@@ -34,13 +49,26 @@ export const EditContactScreen = () => {
   });
 
   const onSubmit: SubmitHandler<EditContactSchema> = useCallback(
-    updatedContact => {
-      console.log('🧐 ~ onSubmit: ~ updatedContact:', updatedContact);
+    async updatedContact => {
+      try {
+        if (!currentContact?.id) return;
+        const payload = { ...updatedContact, id: currentContact?.id };
+        const result = await editContact(payload).unwrap();
+        console.log('🧐 ~ EditContactScreen ~ result:', result);
+        sheetModalSuccess?.current?.present();
+      } catch (error) {
+        console.log('🧐 ~ EditContactScreen ~ error:', error);
+      }
     },
-    [],
+    [currentContact?.id],
   );
   // console.log('🧐 ~ EditContactScreen ~ errors:', errors);
-  console.log('🧐 ~ EditContactScreen ~ currentContact:', currentContact);
+
+  useFocusEffect(
+    useCallback(() => {
+      return () => dispatch(setContact(null));
+    }, [dispatch]),
+  );
 
   return (
     <ScrollView contentContainerStyle={styles.screen}>
@@ -56,7 +84,13 @@ export const EditContactScreen = () => {
         label="last name"
         placeholder="last name"
       />
-      <Input control={control} name="age" label="age" placeholder="age" />
+      <Input
+        control={control}
+        name="age"
+        label="age"
+        placeholder="age"
+        keyboardType="number-pad"
+      />
       <Input
         control={control}
         name="photo"
@@ -66,6 +100,7 @@ export const EditContactScreen = () => {
 
       <Button
         disabled={!isDirty}
+        loading={isLoading}
         onPress={handleSubmit(onSubmit)}
         style={styles.btn}>
         Update Contact
@@ -73,6 +108,7 @@ export const EditContactScreen = () => {
 
       <ConfirmationSuccess
         message="Contact has been edited succsessfully"
+        onConfirm={handleCloseModal}
         ref={sheetModalSuccess}
       />
     </ScrollView>
