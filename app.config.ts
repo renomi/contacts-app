@@ -46,6 +46,9 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         android: {
           // anything higher than version 0.182.0 will fail at the moment
           flipper: '0.182.0',
+          enableProguardInReleaseBuilds: true,
+          extraProguardRules:
+            '-keep @com.facebook.proguard.annotations.DoNotStrip class * -keepclassmembers class * { @com.facebook.proguard.annotations.DoNotStrip *; } -keep @com.facebook.proguard.annotations.DoNotStripAny class * { *; } -keepclassmembers @com.facebook.proguard.annotations.KeepGettersAndSetters class * { void set*(***); *** get*(); } -keep class * implements com.facebook.react.bridge.JavaScriptModule { *; } -keep class * implements com.facebook.react.bridge.NativeModule { *; } -keepclassmembers,includedescriptorclasses class * { native <methods>; } -keepclassmembers class *  { @com.facebook.react.uimanager.annotations.ReactProp <methods>; } -keepclassmembers class *  { @com.facebook.react.uimanager.annotations.ReactPropGroup <methods>; }  -dontwarn com.facebook.react.** -keep,includedescriptorclasses class com.facebook.react.bridge.** { *; } -keep,includedescriptorclasses class com.facebook.react.turbomodule.core.** { *; } -keep class com.facebook.jni.** { *; } -keep class sun.misc.Unsafe { *; } -dontwarn java.nio.file.* -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement -dontwarn okio.** -keep class com.swmansion.reanimated.** { *; } -keep class com.facebook.react.turbomodule.** { *; } -keep public class com.horcrux.svg.** {*;}',
         },
       },
     ],
