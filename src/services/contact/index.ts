@@ -1,6 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
 import { Env } from '@env';
-import { Contact, GetAllContactResponse } from '@/services/contact/types';
+import {
+  Contact,
+  GetAllContactResponse,
+  GetContactResponse,
+} from '@/services/contact/types';
 
 export const contactApi = createApi({
   reducerPath: 'contactApi',
@@ -25,7 +29,15 @@ export const contactApi = createApi({
       // ? Transform the result to prevent nested data
       transformResponse: (response: GetAllContactResponse) => response.data,
     }),
+
+    // ? Query: Get a single Contact
+    getContact: builder.query<Contact, string>({
+      query: id => `contact/${id}`,
+      providesTags: (_result, _error, id) => [{ type: 'Contacts', id }],
+      // ? Transform the result to prevent nested data
+      transformResponse: (response: GetContactResponse) => response.data,
+    }),
   }),
 });
 
-export const { useGetContactsQuery } = contactApi;
+export const { useGetContactsQuery, useGetContactQuery } = contactApi;

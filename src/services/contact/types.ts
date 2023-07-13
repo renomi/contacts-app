@@ -3,6 +3,11 @@ export type GetAllContactResponse = {
   message?: string;
 };
 
+export type GetContactResponse = {
+  data: Contact;
+  message?: string;
+};
+
 export type Contact = {
   age: number;
   firstName: string;
