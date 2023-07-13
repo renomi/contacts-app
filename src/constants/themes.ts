@@ -40,3 +40,10 @@ export const searchbarTheme: ThemeProp = {
     onSurfaceVariant: '#15181E',
   },
 };
+
+export const fabTheme: ThemeProp = {
+  colors: {
+    primaryContainer: 'rgb(217, 226, 255)',
+    onPrimaryContainer: 'rgb(0, 25, 69)',
+  },
+};

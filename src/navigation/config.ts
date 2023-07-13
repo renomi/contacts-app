@@ -20,3 +20,9 @@ export const editContactOptions: NativeStackNavigationOptions = {
   title: 'Edit Contact',
   animation: 'default',
 };
+
+export const addtContactOptions: NativeStackNavigationOptions = {
+  headerShown: true,
+  title: 'Add Contact',
+  animation: 'fade_from_bottom',
+};

@@ -1,15 +1,18 @@
-import { searchbarTheme } from '@/constants/themes';
+import { fabTheme, searchbarTheme } from '@/constants/themes';
 import { useDebouncedValue } from '@/hooks';
+import { navigate } from '@/navigation/utils';
 import { ContactList } from '@/screens/contacts/components/list';
 import { useGetContactsQuery } from '@/services/contact';
 import { ErrorIndicator } from '@/ui';
+import { useIsFocused } from '@react-navigation/native';
 import { useMemo, useState } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
-import { Searchbar } from 'react-native-paper';
+import { FAB, Searchbar } from 'react-native-paper';
 
 export const ContactScreen = () => {
   const [query, setQuery] = useState<string>('');
   const [debouncedQuery] = useDebouncedValue(query, 300);
+  const isFocused = useIsFocused();
 
   const { isLoading, data, isError, isSuccess, refetch } =
     useGetContactsQuery();
@@ -30,27 +33,36 @@ export const ContactScreen = () => {
   }
 
   return (
-    <ScrollView
-      contentContainerStyle={styles.container}
-      showsVerticalScrollIndicator={false}>
-      {isSuccess && (
-        <Searchbar
-          theme={searchbarTheme}
-          placeholder={placeholderSearch}
-          placeholderTextColor="#BDBDBD"
-          iconColor="#979797"
-          value={query}
-          onChangeText={setQuery}
-          style={styles.searchbar}
-        />
-      )}
+    <>
+      <ScrollView
+        contentContainerStyle={styles.container}
+        showsVerticalScrollIndicator={false}>
+        {isSuccess && (
+          <Searchbar
+            theme={searchbarTheme}
+            placeholder={placeholderSearch}
+            placeholderTextColor="#BDBDBD"
+            iconColor="#979797"
+            value={query}
+            onChangeText={setQuery}
+            style={styles.searchbar}
+          />
+        )}
 
-      <ContactList
-        isLoading={isLoading}
-        data={filteredData}
-        query={debouncedQuery}
+        <ContactList
+          isLoading={isLoading}
+          data={filteredData}
+          query={debouncedQuery}
+        />
+      </ScrollView>
+      <FAB
+        theme={fabTheme}
+        icon="plus"
+        visible={isFocused}
+        style={styles.fab}
+        onPress={() => navigate('AddContact')}
       />
-    </ScrollView>
+    </>
   );
 };
 
@@ -61,5 +73,11 @@ const styles = StyleSheet.create({
   },
   searchbar: {
     margin: 16,
+  },
+  fab: {
+    position: 'absolute',
+    margin: 16,
+    right: 0,
+    bottom: 16,
   },
 });
