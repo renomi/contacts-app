@@ -5,6 +5,7 @@ export type RootStackParamList = {
   ContactDetail: {
     id: string;
   };
+  EditContact: undefined;
 };
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> =

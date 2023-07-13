@@ -14,3 +14,9 @@ export const contcatDetailOptions: NativeStackNavigationOptions = {
   title: '',
   animation: 'slide_from_right',
 };
+
+export const editContactOptions: NativeStackNavigationOptions = {
+  headerShown: true,
+  title: 'Edit Contact',
+  animation: 'default',
+};

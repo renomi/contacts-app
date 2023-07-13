@@ -1,4 +1,5 @@
 import { contactApi } from '@/services/contact';
+import { Contact } from '@/services/contact/types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export type User = {
@@ -7,10 +8,12 @@ export type User = {
 
 type UserState = {
   user: User | null;
+  contact: Contact | null;
 };
 
 const initialState: UserState = {
   user: null,
+  contact: null,
 };
 
 export const userSlice = createSlice({
@@ -22,6 +25,10 @@ export const userSlice = createSlice({
     // Save the user's info
     setUser: (state, action: PayloadAction<User>) => {
       state.user = action.payload;
+    },
+    // save selected contact to be edited later
+    setContact: (state, action: PayloadAction<Contact>) => {
+      state.contact = action.payload;
     },
   },
   extraReducers: builder => {
@@ -37,5 +44,5 @@ export const userSlice = createSlice({
 });
 
 const { actions, reducer } = userSlice;
-export const { logout, setUser } = actions;
+export const { logout, setUser, setContact } = actions;
 export default reducer;

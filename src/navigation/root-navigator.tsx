@@ -4,11 +4,16 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as SplashScreen from 'expo-splash-screen';
 
-import { contcatDetailOptions, rootOptions } from '@/navigation/config';
+import {
+  contcatDetailOptions,
+  editContactOptions,
+  rootOptions,
+} from '@/navigation/config';
 import { ContactDetailScreen, ContactScreen } from '@/screens';
 import { navigationTheme } from '@/constants/themes';
 import type { RootStackParamList } from '@/types/navigation';
 import { navigationRef } from '@/navigation/utils';
+import { EditContactScreen } from '@/screens/edit-contact';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -20,6 +25,11 @@ export const Root = () => {
         name="ContactDetail"
         component={ContactDetailScreen}
         options={contcatDetailOptions}
+      />
+      <Stack.Screen
+        name="EditContact"
+        component={EditContactScreen}
+        options={editContactOptions}
       />
     </Stack.Navigator>
   );

@@ -14,11 +14,14 @@ import {
 } from '@/screens/contact-detail/components';
 
 import type { RootStackScreenProps } from '@/types/navigation';
+import { useAppDispatch } from '@/hooks';
+import { setContact } from '@/redux/user/userSlice';
 
 export const ContactDetailScreen = ({
   route,
   navigation,
 }: RootStackScreenProps<'ContactDetail'>) => {
+  const dispatch = useAppDispatch();
   const [isDiaglogVisible, setIsDialogVisible] = useState(false);
   const { isLoading, data, isError, refetch } = useGetContactQuery(
     route.params.id,
@@ -59,6 +62,13 @@ export const ContactDetailScreen = ({
     }
   }, [route?.params?.id, navigation, deleteContact]);
 
+  const handleEdit = useCallback(() => {
+    if (data) {
+      dispatch(setContact(data));
+      navigation.navigate('EditContact');
+    }
+  }, [data, dispatch, navigation]);
+
   if (isLoading) {
     return <LoadingIndicator />;
   }
@@ -71,7 +81,10 @@ export const ContactDetailScreen = ({
     <SafeAreaView style={styles.screen}>
       <ContactInfo data={data} />
 
-      <ActionButton onDelete={() => setIsDialogVisible(true)} />
+      <ActionButton
+        onEdit={handleEdit}
+        onDelete={() => setIsDialogVisible(true)}
+      />
 
       <ConfirmDelete
         visible={isDiaglogVisible}
