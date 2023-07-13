@@ -1,6 +1,6 @@
 import { memo, useCallback } from 'react';
 import * as Haptics from 'expo-haptics';
-import { StyleSheet, View } from 'react-native';
+import { RefreshControl, StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import {
@@ -11,15 +11,17 @@ import {
 import { FlashList, ListRenderItem } from '@shopify/flash-list';
 import Animated, { FadeInRight } from 'react-native-reanimated';
 import { navigate } from '@/navigation/utils';
+import { useRefreshByUser } from '@/hooks';
 
 export type ContactListProps = {
   data?: ContactProps['item'][];
   isLoading?: boolean;
   query?: string;
+  refetch?: () => void;
 };
 
 export const ContactList = memo(
-  ({ data, isLoading = false, query }: ContactListProps) => {
+  ({ data, isLoading = false, query, refetch }: ContactListProps) => {
     const handleItem = useCallback((id?: string) => {
       if (id) {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -64,6 +66,8 @@ export const ContactList = memo(
       [],
     );
 
+    const { isRefetchingByUser, refetchByUser } = useRefreshByUser(refetch);
+
     return (
       <FlashList
         data={data}
@@ -72,6 +76,12 @@ export const ContactList = memo(
         showsVerticalScrollIndicator={false}
         keyExtractor={keyExtractor}
         estimatedItemSize={82}
+        refreshControl={
+          <RefreshControl
+            refreshing={isRefetchingByUser}
+            onRefresh={refetchByUser}
+          />
+        }
       />
     );
   },

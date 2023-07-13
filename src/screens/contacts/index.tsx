@@ -1,22 +1,32 @@
-import { fabTheme, searchbarTheme } from '@/constants/themes';
-import { useDebouncedValue } from '@/hooks';
-import { navigate } from '@/navigation/utils';
+import { useMemo, useState } from 'react';
+import {
+  useDebouncedValue,
+  useIsKeyboardVisible,
+  useRefreshOnFocus,
+} from '@/hooks';
+import { useIsFocused } from '@react-navigation/native';
+
+import { StyleSheet, View } from 'react-native';
+import { FAB, Searchbar } from 'react-native-paper';
 import { ContactList } from '@/screens/contacts/components/list';
+
+import { navigate } from '@/navigation/utils';
 import { useGetContactsQuery } from '@/services/contact';
 import { ErrorIndicator } from '@/ui';
-import { useIsFocused } from '@react-navigation/native';
-import { useMemo, useState } from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
-import { FAB, Searchbar } from 'react-native-paper';
+import { fabTheme, searchbarTheme } from '@/constants/themes';
 
 export const ContactScreen = () => {
   const [query, setQuery] = useState<string>('');
   const [debouncedQuery] = useDebouncedValue(query, 300);
   const isFocused = useIsFocused();
+  const isKeyboardVisible = useIsKeyboardVisible();
+  const isFABVisible = isFocused && !isKeyboardVisible;
 
   const { isLoading, data, isError, isSuccess, refetch } =
     useGetContactsQuery();
   const placeholderSearch = `${data?.length} contacts`;
+
+  useRefreshOnFocus(refetch);
 
   const filteredData = useMemo(() => {
     if (!debouncedQuery) {
@@ -34,9 +44,7 @@ export const ContactScreen = () => {
 
   return (
     <>
-      <ScrollView
-        contentContainerStyle={styles.container}
-        showsVerticalScrollIndicator={false}>
+      <View style={styles.container}>
         {isSuccess && (
           <Searchbar
             theme={searchbarTheme}
@@ -53,12 +61,13 @@ export const ContactScreen = () => {
           isLoading={isLoading}
           data={filteredData}
           query={debouncedQuery}
+          refetch={refetch}
         />
-      </ScrollView>
+      </View>
       <FAB
         theme={fabTheme}
         icon="plus"
-        visible={isFocused}
+        visible={isFABVisible}
         style={styles.fab}
         onPress={() => navigate('AddContact')}
       />
