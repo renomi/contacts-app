@@ -10,8 +10,9 @@ import {
 import { configureStore } from '@reduxjs/toolkit';
 import rootReducer from '@/redux/reducer';
 import { contactApi } from '@/services/contact';
+import { rtkQueryErrorLogger } from '@/redux/utils';
 
-const middlewares = [contactApi.middleware];
+const middlewares = [contactApi.middleware, rtkQueryErrorLogger];
 
 if (__DEV__) {
   const createDebugger = require('redux-flipper').default;

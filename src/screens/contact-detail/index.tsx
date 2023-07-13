@@ -51,12 +51,6 @@ export const ContactDetailScreen = ({
       navigation.goBack();
     } catch (err) {
       console.log(err);
-      Toast.showWithGravity(
-        //@ts-expect-error
-        `${err?.status ? err?.status : ''}: something bad happened`,
-        Toast.LONG,
-        Toast.BOTTOM,
-      );
     } finally {
       setIsDialogVisible(false);
     }
