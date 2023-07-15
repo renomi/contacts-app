@@ -1,17 +1,19 @@
+import { useCallback, useRef } from 'react';
+import { ScrollView, StyleSheet } from 'react-native';
+
+import { BottomSheetModal } from '@gorhom/bottom-sheet';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as Haptics from 'expo-haptics';
+import { SubmitHandler, useForm } from 'react-hook-form';
+
 import { useCreateContactMutation } from '@/services/contact';
 import {
   contactValidation,
   ContactValidationSchema,
 } from '@/services/contact/schema';
+import { RootStackScreenProps } from '@/types/navigation';
 import { Button, Input } from '@/ui';
 import { ConfirmationSuccess } from '@/ui/modal/confirmation-success';
-import { BottomSheetModal } from '@gorhom/bottom-sheet';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useCallback, useRef } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { ScrollView, StyleSheet } from 'react-native';
-import * as Haptics from 'expo-haptics';
-import { RootStackScreenProps } from '@/types/navigation';
 
 export const AddContactScreen = ({
   navigation,

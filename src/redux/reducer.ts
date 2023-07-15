@@ -1,8 +1,10 @@
 import { combineReducers } from '@reduxjs/toolkit';
 import { persistReducer } from 'redux-persist';
-import userReducer from './user/userSlice';
+
 import { reduxStorage } from '@/redux/storage';
 import { contactApi } from '@/services/contact';
+
+import userReducer from './user/userSlice';
 
 const persistUserConfig = {
   key: 'rtk:user',

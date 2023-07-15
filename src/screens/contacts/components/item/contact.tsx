@@ -1,10 +1,12 @@
+import { memo } from 'react';
+import { StyleSheet } from 'react-native';
+
+import { Image } from 'expo-image';
+import { Text } from 'react-native-paper';
+
 import images from '@/constants/images';
 import { Contact as Item } from '@/services/contact/types';
 import { PressableScale } from '@/ui';
-import { Image } from 'expo-image';
-import { memo } from 'react';
-import { StyleSheet } from 'react-native';
-import { Text } from 'react-native-paper';
 
 export type ContactProps = {
   item?: Item;

@@ -1,6 +1,6 @@
-import { Middleware, MiddlewareAPI, isRejected } from '@reduxjs/toolkit';
-import Toast from 'react-native-simple-toast';
+import { isRejected, Middleware, MiddlewareAPI } from '@reduxjs/toolkit';
 import * as Haptics from 'expo-haptics';
+import Toast from 'react-native-simple-toast';
 
 export const rtkQueryErrorLogger: Middleware =
   (api: MiddlewareAPI) => next => action => {

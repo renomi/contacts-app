@@ -4,21 +4,21 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as SplashScreen from 'expo-splash-screen';
 
+import { navigationTheme } from '@/constants/themes';
 import {
   addtContactOptions,
   contcatDetailOptions,
   editContactOptions,
   rootOptions,
 } from '@/navigation/config';
+import { navigationRef } from '@/navigation/utils';
 import {
   AddContactScreen,
   ContactDetailScreen,
   ContactScreen,
 } from '@/screens';
-import { navigationTheme } from '@/constants/themes';
-import type { RootStackParamList } from '@/types/navigation';
-import { navigationRef } from '@/navigation/utils';
 import { EditContactScreen } from '@/screens/edit-contact';
+import type { RootStackParamList } from '@/types/navigation';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 

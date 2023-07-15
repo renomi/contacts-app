@@ -1,8 +1,9 @@
 import { memo } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Text } from 'react-native-paper';
+
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Text } from 'react-native-paper';
 
 export type ActionButtonProps = {
   onEdit?: () => void;

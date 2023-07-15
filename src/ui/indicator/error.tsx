@@ -3,9 +3,9 @@ import { View } from 'react-native';
 
 import { Button, Text } from 'react-native-paper';
 
+import { buttonTheme } from '@/constants/themes';
 import { indicatorStyles } from '@/ui/indicator/styles';
 import { ErrorIndicatorProps } from '@/ui/indicator/types';
-import { buttonTheme } from '@/constants/themes';
 
 export const ErrorIndicator = memo(
   ({

@@ -1,5 +1,6 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
 import { Env } from '@env';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
+
 import {
   Contact,
   GetAllContactResponse,

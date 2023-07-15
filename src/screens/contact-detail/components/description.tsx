@@ -1,14 +1,16 @@
-import type { Contact } from '@/services/contact/types';
-import images from '@/constants/images';
+import { memo } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Text } from 'react-native-paper';
+
 import { Image } from 'expo-image';
+import { Text } from 'react-native-paper';
 import Animated, {
   FadeInDown,
   SlideInDown,
   SlideInUp,
 } from 'react-native-reanimated';
-import { memo } from 'react';
+
+import images from '@/constants/images';
+import type { Contact } from '@/services/contact/types';
 
 export const ContactInfo = memo(({ data }: { data?: Contact }) => {
   if (!data) {

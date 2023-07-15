@@ -1,7 +1,9 @@
 import { memo } from 'react';
-import { Button } from '@/ui';
 import { StyleSheet } from 'react-native';
+
 import { Dialog, Portal, Text } from 'react-native-paper';
+
+import { Button } from '@/ui';
 
 export type ConfirmDeleteProps = {
   visible?: boolean;

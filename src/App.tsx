@@ -1,20 +1,19 @@
 import { StyleSheet } from 'react-native';
 
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import * as SplashScreen from 'expo-splash-screen';
 import * as SystemUI from 'expo-system-ui';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { initializeMMKVFlipper } from 'react-native-mmkv-flipper-plugin';
 import { Provider as PaperProvider } from 'react-native-paper';
+import { enableFreeze } from 'react-native-screens';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
-import { enableFreeze } from 'react-native-screens';
 
 import { RootNavigator } from '@/navigation';
-import { OfflineIndicator } from '@/ui';
-
-import { persistor, store } from '@/redux/store';
 import { storage } from '@/redux/storage';
-import { initializeMMKVFlipper } from 'react-native-mmkv-flipper-plugin';
+import { persistor, store } from '@/redux/store';
+import { OfflineIndicator } from '@/ui';
 
 // prevent parts of component tree from rendering, while keeping its state untouched.
 enableFreeze(true);

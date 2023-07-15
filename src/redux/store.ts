@@ -1,16 +1,17 @@
+import { configureStore } from '@reduxjs/toolkit';
 import {
-  persistStore,
   FLUSH,
-  REHYDRATE,
   PAUSE,
   PERSIST,
+  persistStore,
   PURGE,
   REGISTER,
+  REHYDRATE,
 } from 'redux-persist';
-import { configureStore } from '@reduxjs/toolkit';
+
 import rootReducer from '@/redux/reducer';
-import { contactApi } from '@/services/contact';
 import { rtkQueryErrorLogger } from '@/redux/utils';
+import { contactApi } from '@/services/contact';
 
 const middlewares = [contactApi.middleware, rtkQueryErrorLogger];
 

@@ -1,21 +1,22 @@
 import { useCallback, useState } from 'react';
+import { StyleSheet } from 'react-native';
+
+import { SafeAreaView } from 'react-native-safe-area-context';
+import Toast from 'react-native-simple-toast';
+
+import { useAppDispatch } from '@/hooks';
+import { setContact } from '@/redux/user/userSlice';
+import {
+  ActionButton,
+  ConfirmDelete,
+  ContactInfo,
+} from '@/screens/contact-detail/components';
 import {
   useDeleteContactMutation,
   useGetContactQuery,
 } from '@/services/contact';
-import { ErrorIndicator, LoadingIndicator } from '@/ui';
-import Toast from 'react-native-simple-toast';
-import { StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import {
-  ActionButton,
-  ContactInfo,
-  ConfirmDelete,
-} from '@/screens/contact-detail/components';
-
 import type { RootStackScreenProps } from '@/types/navigation';
-import { useAppDispatch } from '@/hooks';
-import { setContact } from '@/redux/user/userSlice';
+import { ErrorIndicator, LoadingIndicator } from '@/ui';
 
 export const ContactDetailScreen = ({
   route,

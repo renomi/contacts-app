@@ -1,6 +1,7 @@
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
 import { contactApi } from '@/services/contact';
 import { Contact } from '@/services/contact/types';
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export type User = {
   isDoingTest: boolean;
@@ -18,7 +19,7 @@ const initialState: UserState = {
 
 export const userSlice = createSlice({
   name: 'userSlice',
-  initialState: initialState,
+  initialState,
   reducers: {
     // ? Logout the user by returning the initial state
     logout: () => initialState,

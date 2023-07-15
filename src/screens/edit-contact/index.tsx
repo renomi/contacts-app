@@ -1,23 +1,23 @@
 import { useCallback, useRef } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
-import { useFocusEffect } from '@react-navigation/native';
-import type { RootStackScreenProps } from '@/types/navigation';
-import { useAppDispatch, useAppSelector } from '@/hooks';
 
-import { setContact } from '@/redux/user/userSlice';
+import { BottomSheetModal } from '@gorhom/bottom-sheet';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useFocusEffect } from '@react-navigation/native';
+import * as Haptics from 'expo-haptics';
+import { SubmitHandler, useForm } from 'react-hook-form';
+
+import { useAppDispatch, useAppSelector } from '@/hooks';
 import type { RootState } from '@/redux/store';
+import { setContact } from '@/redux/user/userSlice';
+import { useEditContactMutation } from '@/services/contact';
 import {
   contactValidation,
   ContactValidationSchema,
 } from '@/services/contact/schema';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { SubmitHandler, useForm } from 'react-hook-form';
-
-import { useEditContactMutation } from '@/services/contact';
+import type { RootStackScreenProps } from '@/types/navigation';
 import { Button, Input } from '@/ui';
-import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { ConfirmationSuccess } from '@/ui/modal/confirmation-success';
-import * as Haptics from 'expo-haptics';
 
 const selectContact = (state: RootState) => state.userState.contact;
 
@@ -62,7 +62,7 @@ export const EditContactScreen = ({
         console.log('🧐 ~ EditContactScreen ~ error:', error);
       }
     },
-    [currentContact?.id],
+    [currentContact?.id, editContact],
   );
   // console.log('🧐 ~ EditContactScreen ~ errors:', errors);
 

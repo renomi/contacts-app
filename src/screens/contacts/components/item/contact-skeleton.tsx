@@ -1,5 +1,6 @@
-import { Skeleton } from 'moti/skeleton';
 import { StyleSheet, View } from 'react-native';
+
+import { Skeleton } from 'moti/skeleton';
 
 export const ContactSkeleton = () => {
   return (

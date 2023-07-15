@@ -1,10 +1,12 @@
+import { forwardRef, memo, useMemo } from 'react';
+import { ColorValue, StyleSheet, View } from 'react-native';
+
+import { SimpleLineIcons } from '@expo/vector-icons';
+import { BottomSheetModal } from '@gorhom/bottom-sheet';
+import { Text } from 'react-native-paper';
+
 import { renderBackdrop } from '@/ui/bottom-sheet';
 import { Button } from '@/ui/button';
-import { BottomSheetModal } from '@gorhom/bottom-sheet';
-import { forwardRef, memo, useMemo } from 'react';
-import { SimpleLineIcons } from '@expo/vector-icons';
-import { ColorValue, StyleSheet, View } from 'react-native';
-import { Text } from 'react-native-paper';
 
 export type ConfirmationSuccessProps = {
   message?: string;
